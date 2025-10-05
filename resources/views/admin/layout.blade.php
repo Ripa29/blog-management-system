@@ -77,12 +77,12 @@
         <!-- Sidebar -->
         <aside class="sidebar w-64 bg-gray-900 text-white flex-shrink-0">
             <div class="p-6">
-                <div class="flex items-center space-x-3 mb-8">
+                <a class="flex items-center space-x-3 mb-8" href="{{ route('home') }}">
                     <div
                         class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center shadow-lg">
-                        <i class="fas fa-code text-white"></i> </div> <span
-                        class="text-2xl font-bold font-heading">OptiCodex</span>
-                </div>
+                        <i class="fas fa-code text-white"></i> </div>
+                        <span class="text-2xl font-bold font-heading">OptiCodex</span>
+                </a>
                 <nav class="space-y-2"> <a href="{{ route('admin.dashboard') }}"
                         class="flex items-center py-3 px-4 rounded-lg transition {{ request()->routeIs('admin.dashboard') ? 'active-link' : 'hover:bg-gray-800' }}">
                         <i class="fas fa-dashboard w-5"></i> <span class="ml-3 font-medium">Dashboard</span> </a> <a
