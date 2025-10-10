@@ -25,13 +25,22 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-
-        User::firstOrCreate(
-            ['email' => 'john@blog.com'],
+User::firstOrCreate(
+            ['email' => 'smith@blog.com'],
             [
-                'name' => 'John Doe',
+                'name' => 'Smith User',
                 'password' => Hash::make('password'),
                 'status' => 1,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'user@blog.com'],
+            [
+                'name' => 'User',
+                'password' => Hash::make('password'),
+                'status' => 0,
                 'email_verified_at' => now(),
             ]
         );
@@ -45,6 +54,26 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+        User::firstOrCreate(
+            ['email' => 'mike@blog.com'],
+            [
+                'name' => 'Mike Johnson',
+                'password' => Hash::make('password'),
+                'status' => 0,
+                'email_verified_at' => now(),
+            ]
+        );
+        User::firstOrCreate(
+            ['email' => 'opticodex@blog.com'],
+            [
+                'name' => 'Opticodex',
+                'password' => Hash::make('password'),
+                'status' => 1,
+                'email_verified_at' => now(),
+            ]
+        );
+
 
         $this->call([
             BlogCategorySeeder::class,

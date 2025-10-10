@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Blog;
+use App\Models\BlogLike;
+use App\Models\BlogComment;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -37,9 +37,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Attribute casting.
      */
     protected function casts(): array
     {
@@ -48,18 +46,52 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relationship: User authored blogs
+     */
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class, 'author_id');
     }
 
+    /**
+     * Relationship: Blog Likes
+     */
+    public function blogLikes(): HasMany
+    {
+        return $this->hasMany(BlogLike::class, 'author_id');
+    }
+
+    /**
+     * Relationship: Blog Comments
+     */
+    public function blogComments(): HasMany
+    {
+        return $this->hasMany(BlogComment::class, 'author_id');
+    }
+
+    /**
+     * Accessor: User status text
+     */
     public function getStatusAttribute($value): string
     {
         return $value ? 'Active' : 'Inactive';
     }
 
+    /**
+     * Check if user is active
+     */
     public function isActive(): bool
     {
         return $this->getRawOriginal('status') === 1;
+    }
+
+    /**
+     * Many-to-Many Relationship: Blogs the user liked
+     */
+    public function likedBlogs()
+    {
+        return $this->belongsToMany(Blog::class, 'blog_likes', 'author_id', 'blog_id');
     }
 }

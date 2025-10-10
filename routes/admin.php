@@ -1,13 +1,26 @@
 <?php
 
+use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\BlogCommentController;
 
-// Dashboard Route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+|
+| These routes are prefixed with 'admin/' and protected by 'auth' middleware.
+| Example: /admin/blogs, /admin/categories
+|
+*/
+
+//  Dashboard
+Route::get('/', function () {
+    return view('admin.dashboard');
+})->name('dashboard');
 
 // Blog Categories Routes
 Route::prefix('categories')->name('categories.')->group(function () {
@@ -41,4 +54,15 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::put('/{user}', [UserController::class, 'update'])->name('update');
     Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
     Route::post('/{user}/status', [UserController::class, 'updateStatus'])->name('status');
+});
+
+//  Comment Management
+Route::prefix('comments')->name('comments.')->group(function () {
+    Route::get('/', [BlogCommentController::class, 'index'])->name('index');
+    Route::delete('/{comment}', [BlogCommentController::class, 'destroy'])->name('destroy');
+});
+
+// Fallback for invalid admin pages
+Route::fallback(function () {
+    return redirect()->route('admin.dashboard')->with('error', 'Page not found.');
 });
